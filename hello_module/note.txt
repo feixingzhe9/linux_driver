@@ -1,0 +1,6 @@
+
+1. make 
+2. sudo insmod hellomodule.ko
+3. gcc hellotest.c -o -hellotest.o
+4. chmod 777 /dev/hello     // i thought this step is not necessary ,but i donot know why have to do so
+5. ./hellotest.o  5 6       // 5 and 6 as your input 
