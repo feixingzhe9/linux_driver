@@ -22,7 +22,7 @@ static int hello_release(struct inode *inode, struct file *file){
 }
 
 static long hello_ioctl(struct file *file, unsigned int cmd, unsigned long arg){
-    printk("cmd is %d, arg is %d\n", cmd, arg);
+    printk("cmd is %d, arg is %ld\n", cmd, arg);
     return 0;
 }
 
@@ -79,7 +79,7 @@ static struct platform_driver hello_driver = {
     }
 };
 
-static int hello_init(void)
+static int __init  hello_init(void)
 {
     int driver_state;
     printk(KERN_EMERG "hello module has been mount!\n");
@@ -90,7 +90,7 @@ static int hello_init(void)
     return 0;
 }
 
-static void hello_exit(void)
+static void  __exit hello_exit(void)
 {
     printk(KERN_EMERG "hello module has been remove!\n");
     platform_driver_unregister(&hello_driver);
