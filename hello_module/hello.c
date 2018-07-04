@@ -5,19 +5,46 @@
 #include <linux/miscdevice.h>
 #include <linux/fs.h>
 
-#define DRIVER_NAME "hello"
+#define DRIVER_NAME "hello_driver"
 #define DEVICE_NAME "hello"
 
 MODULE_LICENSE("Dual BSD/GPL");
-MODULE_AUTHOR("Radia");
+MODULE_AUTHOR("Kaka");
 
 static int hello_open(struct inode *inode, struct file *file){
-    printk(KERN_EMERG "hello open\n");
+    printk(KERN_EMERG "hello open ^_^\n");
     return 0;
 }
 
+//static int hello_write(struct inode *inode, struct file *file){
+static int hello_write(struct file *file, const char __user * buf, size_t count, loff_t *ppos){
+    int i = 0;
+    printk(KERN_EMERG "hello write ^_^\n");
+    printk(KERN_EMERG "write data len: %d \n", (int)count);
+    printk(KERN_EMERG "write data: ");
+    for(; i < count; i++){
+        printk(KERN_EMERG " %d ",buf[i]);
+    }
+
+    printk(KERN_EMERG "\n");
+    return count;
+}
+
+static int hello_read(struct file *filp, char __user *buf, ssize_t count, loff_t *ppos){
+    int i = 0;
+    char test_read[] = {'a', 'b', 'c', 'd', 'e', 'f', 'e', 'f', 'g', 'h', 'i', 'j', 'k'};
+    printk(KERN_EMERG "hello read ^_^\n");
+    if(count <= sizeof(test_read)){
+        memcpy(buf, test_read, count); 
+    }else{
+        memcpy(buf, test_read, sizeof(test_read)); 
+        count = sizeof(test_read); 
+    }
+    return count;
+}
+
 static int hello_release(struct inode *inode, struct file *file){
-    printk(KERN_EMERG "hello release\n");
+    printk(KERN_EMERG "hello release ^_^\n");
     return 0;
 }
 
@@ -29,6 +56,8 @@ static long hello_ioctl(struct file *file, unsigned int cmd, unsigned long arg){
 static struct file_operations hello_fops = {
     .owner = THIS_MODULE,
     .open = hello_open,
+    .read = hello_read,
+    .write = hello_write,
     .release = hello_release,
     .unlocked_ioctl = hello_ioctl,
 };
@@ -41,14 +70,14 @@ static struct miscdevice hello_dev = {
 
 static int hello_probe(struct platform_device *pdv)
 {
-    printk(KERN_EMERG "hello probe\n");
+    printk(KERN_EMERG "hello probe ^_^\n");
     misc_register(&hello_dev);
     return 0;
 }
 
 static int hello_remove(struct platform_device *pdv)
 {
-    printk(KERN_EMERG "hello remove\n");
+    printk(KERN_EMERG "hello remove ^_^\n");
     misc_deregister(&hello_dev);
     return 0;
 }
@@ -78,6 +107,7 @@ static struct platform_driver hello_driver = {
         .owner = THIS_MODULE,
     }
 };
+
 
 static int __init  hello_init(void)
 {
