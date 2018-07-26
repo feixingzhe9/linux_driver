@@ -1,0 +1,45 @@
+#include "bcm2837.dtsi"
+#include "bcm270x.dtsi"
+#include "bcm2708-rpi.dtsi"
+
+/ {
+	compatible = "brcm,bcm2837", "brcm,bcm2836";
+
+	soc {
+
+		arm-pmu {
+#ifdef RPI364
+			compatible = "arm,armv8-pmuv3", "arm,cortex-a7-pmu";
+#else
+			compatible = "arm,cortex-a7-pmu";
+#endif
+			interrupt-parent = <&local_intc>;
+			interrupts = <9>;
+		};
+
+		/delete-node/ timer@7e003000;
+	};
+
+	car: car{
+		 compatible = "car-gpio";
+		 gpios = <&gpio 5 0
+				 &gpio 6 0
+				 &gpio 13 0
+				 &gpio 19 0
+				 &gpio 26 0
+				 &gpio 12 0
+				 &gpio 16 0
+				 &gpio 20 0
+				 >;
+		#address-cells = <1>;
+		#size-cells = <0>;
+	};
+
+	__overrides__ {
+		arm_freq = <&cpu0>, "clock-frequency:0",
+		       <&cpu1>, "clock-frequency:0",
+		       <&cpu2>, "clock-frequency:0",
+		       <&cpu3>, "clock-frequency:0";
+	};
+};
+
