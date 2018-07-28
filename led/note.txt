@@ -1,0 +1,19 @@
+dts file path: linux-rpi-4.14.y/arch/arm/boot/dts 
+
+1. dts compile:
+cd linux-rpi-4.14.y
+make bcm2710-rpi-3-b-plus.dtb
+2. install dts files:
+sudo make modules_install	// is necessary ?
+sudo cp arch/arm/boot/dts/*.dtb /boot/
+sudo cp arch/arm/boot/dts/overlays/*.dtb* /boot/overlays/
+sudo cp arch/arm/boot/dts/overlays/README /boot/overlays/
+sudo scripts/mkknlimg arch/arm/boot/zImage /boot/$KERNEL.img  // is necessary ?
+sudo reboot 
+
+
+1. make 
+2. sudo insmod hellomodule.ko
+3. gcc hellotest.c -o -hellotest.o
+4. chmod 777 /dev/hello     // i thought this step is not necessary ,but i donot know why have to do so
+5. ./hellotest.o  5 6       // 5 and 6 as your input 
