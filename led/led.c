@@ -242,6 +242,8 @@ module_init(led_gpio_init);
 static void __exit led_gpio_exit(void)
 {
     platform_driver_unregister(&led_gpio_driver);
+    //class_destroy();
+    //device_destroy();
 	printk("led-gpio exit . . .\n");
 }
 module_exit(led_gpio_exit);
