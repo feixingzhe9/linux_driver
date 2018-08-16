@@ -335,8 +335,9 @@ static int __init car_gpio_init(void)
 
     printk(KERN_INFO "Entry car_gpio_init !!!!!!!!!!!!!!!!!!!!!!\n");
     ret = platform_driver_register(&car_gpio_driver);
-    if (ret)
-	printk(KERN_ERR "car-gpio: probe failed: %d\n", ret);
+    if (ret){
+		printk(KERN_ERR "car-gpio: probe failed: %d\n", ret);
+	}
 
     return ret;
 }

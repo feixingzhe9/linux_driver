@@ -30,7 +30,9 @@ static int hello_write(struct file *file, const char __user * buf, size_t count,
     return count;
 }
 
-static int hello_read(struct file *filp, char __user *buf, ssize_t count, loff_t *ppos){
+
+//static ssize_t (*read) (struct file * filp, char __user * buffer, size_t size , loff_t * p); 
+static ssize_t hello_read(struct file *filp,  char __user *buf,    size_t count, loff_t *ppos){
     int i = 0;
     char test_read[] = {'a', 'b', 'c', 'd', 'e', 'f', 'e', 'f', 'g', 'h', 'i', 'j', 'k'};
     printk(KERN_EMERG "hello read ^_^\n");
