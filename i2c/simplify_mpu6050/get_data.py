@@ -46,6 +46,25 @@ class MPU6050_data(object):
     def get_acc_z_origin(self):
         return self.build_value_by_reg_addr(63, 64)
 
+    def get_gyro_x_origin(self):
+        return self.build_value_by_reg_addr(67, 68)
+
+    def get_gyro_y_origin(self):
+        return self.build_value_by_reg_addr(69, 70)
+
+    def get_gyro_z_origin(self):
+        return self.build_value_by_reg_addr(71, 72)
+
+    def get_gyro_x(self):
+        return ctypes.c_float(self.get_gyro_x_origin()).value/131
+
+    def get_gyro_y(self):
+        return ctypes.c_float(self.get_gyro_y_origin()).value/131
+
+    def get_gyro_z(self):
+        return ctypes.c_float(self.get_gyro_z_origin()).value/131
+
+
     def get_acc_x(self):
         global GRA_ACC
         return (ctypes.c_float(self.get_acc_x_origin()).value/16384) * GRA_ACC
@@ -70,12 +89,24 @@ def main():
     while 1:
         temperature = acc.get_temperature()
         acc_x = acc.get_acc_x()
+        #time.sleep(0.01)
         acc_y = acc.get_acc_y()
+        #time.sleep(0.01)
         acc_z = acc.get_acc_z()
+        #time.sleep(0.01)
+        gyro_x = acc.get_gyro_x()
+        #time.sleep(0.01)
+        gyro_y = acc.get_gyro_y()
+        #time.sleep(0.01)
+        gyro_z = acc.get_gyro_z()
+        #time.sleep(0.01)
         print "get temperature  : ", temperature
         print "get acc_X        : ",acc_x ," m/s2"
         print "get acc_Y        : ",acc_y ," m/s2"
         print "get acc_Z        : ",acc_z ," m/s2"
+        print "get gyro_X       : ",gyro_x
+        print "get gyro_Y       : ",gyro_y
+        print "get gyro_Z       : ",gyro_z
 
         #print "gra_acc :",pow(pow(acc_x, 2) + pow(acc_y, 2) + pow(acc_z, 2), float(1)/2)
         time.sleep(0.3)
